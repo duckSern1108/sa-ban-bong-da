@@ -38,8 +38,8 @@ export default function Players({
                     textAlign: "center",
                     lineHeight: `${size}px`,
                 }}
-                onPointerUp={() => setIsNeeded(false)}
-                onPointerDown={() => {
+                onTouchStart={() => setIsNeeded(false)}
+                onTouchEnd={() => {
                     setIsNeeded(true);
                 }}
                 
