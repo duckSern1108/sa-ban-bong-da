@@ -1,7 +1,7 @@
 import React from "react";
 export default function Background({color,team1Name,team2Name}) {
     const style = {
-        backgroundColor: color || "green",
+        backgroundColor: color || "#6082f0",
         flex: 1,
         height: "100%",
         alignItems: "center",
