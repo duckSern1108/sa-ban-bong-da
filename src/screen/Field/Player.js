@@ -9,23 +9,29 @@ export default function Players({
     kitColor,
     id,
     teamId,
+    defaultPosition,
 }) {
     const [showEditField, setShowEditField] = useState(false);
     const { showKitNumber, showPlayerName } = useSelector(
         (state) => state.field.viewFilter
     );
     return (
-        <Draggable>
+        <Draggable handle="span">
             <div
                 style={{
-                    display: "flex",
+                    display: "inline-flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    cursor: "pointer",
+                    cursor: "move",
+                    position : !!defaultPosition && "absolute",
+                    top : !!defaultPosition && defaultPosition.top,
+                    left : !!defaultPosition && defaultPosition.left
+                    // display : "inline-block"
                 }}
             >
-                <div
+                <span
                     style={{
+                        display : "block",
                         width: `${size}px`,
                         height: `${size}px`,
                         borderRadius: "50%",
@@ -36,7 +42,7 @@ export default function Players({
                     onDoubleClick={() => setShowEditField(true)}
                 >
                     {showKitNumber && kitNumber && kitNumber}
-                </div>
+                </span>
                 {showPlayerName && name && <div>{name}</div>}
                 {showEditField && (
                     <div>

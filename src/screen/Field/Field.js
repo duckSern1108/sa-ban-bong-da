@@ -4,7 +4,9 @@ import EditField from "./EditField";
 import Player from "./Player";
 import { useSelector } from "react-redux";
 export default function Field() {
-    const { color, teams, playerSize } = useSelector((state) => state.field);
+    const { color, teams, playerSize, ballColor, ballSize } = useSelector(
+        (state) => state.field
+    );
     const [showSetting, setShowSetting] = useState(false);
     return (
         <>
@@ -13,6 +15,7 @@ export default function Field() {
                     position: "relative",
                     width: "100vw",
                     height: "100vh",
+                    overflow: "hidden",
                     // margin : "5em auto",
                 }}
             >
@@ -28,41 +31,39 @@ export default function Field() {
                         <EditField />
                     </div>
                 )}
-                <Background
-                    color={color}
-                  
-                />
+                <Background color={color} />
 
                 <button onClick={() => setShowSetting((s) => !s)}>
                     Setting
                 </button>
-                <Player
-                    kitColor="black"
-                    position={{ x: "50%", y: "50%" }}
-                    size={15}
-                   
-                />
+                <div>
+                    <Player
+                        kitColor={ballColor}
+                        size={ballSize}
+                        defaultPosition={{ top: "50%", left: "50%" }}
+                    />
 
-                {teams[0] &&
-                    teams[0].players.map((p) => (
-                        <Player
-                            {...p}
-                            key={p.id}
-                            teamId={0}
-                            kitColor={teams[0].kitColor}
-                            size={playerSize}
-                        />
-                    ))}
-                {teams[1] &&
-                    teams[1].players.map((p) => (
-                        <Player
-                            key={p.id}
-                            {...p}
-                            size={playerSize}
-                            teamId={1}
-                            kitColor={teams[1].kitColor}
-                        />
-                    ))}
+                    {teams[0].players &&
+                        teams[0].players.map((p, index) => (
+                            <Player
+                                {...p}
+                                key={`${index} 0`}
+                                teamId={0}
+                                kitColor={teams[0].kitColor}
+                                size={playerSize}
+                            />
+                        ))}
+                    {teams[1].players &&
+                        teams[1].players.map((p, index) => (
+                            <Player
+                                key={`${index} 1`}
+                                {...p}
+                                size={playerSize}
+                                teamId={1}
+                                kitColor={teams[1].kitColor}
+                            />
+                        ))}
+                </div>
             </div>
         </>
     );

@@ -1,6 +1,8 @@
 import React from "react";
 import {
-    fieldAddNewTeam,
+    fieldChangeBallSize,
+    fieldChangeBallColor,
+    fieldChangeTeamKitColor,
     fieldChangeColor,
     fieldPlayerSize,
     fieldSetNumberOfPlayerEachTeam,
@@ -10,28 +12,11 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 export default function EditField() {
     const dispatch = useDispatch();
-    const { showKitNumber, showPlayerName } = useSelector(
-        (state) => state.field.viewFilter
+    const { playerSize, color, teams, numberPlayerEachTeam,ballColor,ballSize,viewFilter : {
+        showKitNumber, showPlayerName
+    } } = useSelector(
+        (state) => state.field
     );
-    const playerSize = useSelector(state => state.field.playerSize)
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        dispatch(fieldChangeColor(e.target[0].value));
-        dispatch(
-            fieldAddNewTeam({
-         
-                kitColor: e.target[1].value,
-            })
-        );
-        dispatch(
-            fieldAddNewTeam({
- 
-                kitColor: e.target[2].value,
-            })
-        );
-        dispatch(fieldSetNumberOfPlayerEachTeam(parseInt(e.target[3].value)));
-        
-    };
     return (
         <div
             style={{
@@ -40,42 +25,97 @@ export default function EditField() {
                 borderRadius: "20px",
             }}
         >
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="color" placeholder="Color ..." />
+            <form>
+                <label>Màu cỏ : </label>
                 <input
-                    type="text"
+                    type="color"
+                    value={color}
+                    onChange={(e) => dispatch(fieldChangeColor(e.target.value))}
+                    name="color"
+                />
+                <br />
+                <label>Màu bóng : </label>
+                <input
+                    type="color"
+                    value={ballColor}
+                    onChange={(e) => dispatch(fieldChangeBallColor(e.target.value))}
+                    name="ballColor"
+                />
+                <br />
+                <label>Màu áo team 1 : </label>
+                <input
+                    type="color"
                     name="team1KitColor"
                     placeholder="Team 1 kit color"
+                    value={teams[0].kitColor || "#000000"}
+                    onChange={e => dispatch(fieldChangeTeamKitColor({
+                        kitColor : e.target.value,
+                        teamId : 0
+                    }))}
                 />
+                <br />
+                <label>Màu áo team 2 : </label>
                 <input
-                    type="text"
+                    type="color"
                     name="team2KitColor"
                     placeholder="Team 2 kit color"
+                    value={teams[1].kitColor || "#000000"}
+                    onChange={e => dispatch(fieldChangeTeamKitColor({
+                        kitColor : e.target.value,
+                        teamId : 1
+                    }))}
                 />
+                <br />
+                <label>Số cầu thủ mỗi đội : </label>
                 <input
                     type="number"
                     name="numberPlayer"
-                    placeholder="Number of players each team"
+                    value={numberPlayerEachTeam}
+                    onChange={(e) =>
+                        dispatch(fieldSetNumberOfPlayerEachTeam(e.target.value))
+                    }
                 />
-                
-                <button type="submit">Change</button>
+                <br />
+                <input
+                    value={showKitNumber}
+                    type="checkbox"
+                    name="view kit number"
+                    onChange={() => dispatch(viewFilterChangeShowKitNumber())}
+                />
+                <label>Hiện số áo cầu thủ</label>
+                <input
+                    value={showPlayerName}
+                    type="checkbox"
+                    name="view player name"
+                    onChange={() => dispatch(viewFilterChangeShowPlayerName())}
+                />
+
+                <label>Hiện tên cầu thủ</label>
+                <br />
+                <label>Kích cỡ cầu thủ trên sân : </label>
+                <input
+                    type="range"
+                    value={playerSize}
+                    name="playerSize"
+                    min={10}
+                    max={100}
+                    onChange={(e) =>
+                        dispatch(fieldPlayerSize(parseInt(e.target.value)))
+                    }
+                />
+                <br />
+                <label>Kích cỡ bóng trên sân : </label>
+                <input
+                    type="range"
+                    value={ballSize}
+                    name="ballSize"
+                    min={10}
+                    max={100}
+                    onChange={(e) =>
+                        dispatch(fieldChangeBallSize(parseInt(e.target.value)))
+                    }
+                />
             </form>
-            <input
-                defaultChecked={showKitNumber}
-                type="checkbox"
-                name="view kit number"
-                onChange={() => dispatch(viewFilterChangeShowKitNumber())}
-            />
-            <label>View kit number</label>
-            <input
-                defaultChecked={showPlayerName}
-                type="checkbox"
-                name="view player name"
-                onChange={() => dispatch(viewFilterChangeShowPlayerName())}
-            />
-            
-            <label>View player name</label>
-            <input type="range" defaultValue={playerSize} name="playerSize" min={10} max={50} onChange={(e) => dispatch(fieldPlayerSize(parseInt(e.target.value)))}/>
         </div>
     );
 }

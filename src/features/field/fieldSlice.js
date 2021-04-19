@@ -1,86 +1,90 @@
-import {
-    createSlice,
-} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    color: "green", //mau` co?
+    color: "#6082f0", 
+    ballColor : "#000000",
     numberPlayerEachTeam: 7,
-    teams: [],
-    playerSize : 30,
-    viewFilter : {
-        showKitNumber : true,
-        showPlayerName : true
-    }
+    ballSize : 15,
+    teams: {
+        0: {
+            kitColor: "#ffffff",
+            players: Array(7).fill({
+                kitNumber: null,
+                name: null,
+            }),
+        },
+        1: {
+            kitColor: "#FF0000",
+            players: Array(7).fill({
+                kitNumber: null,
+                name: null,
+            }),
+        },
+    },
+    playerSize: 30,
+    viewFilter: {
+        showKitNumber: false,
+        showPlayerName: false,
+    },
 };
-// Thunk functions
-// export const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
-//     const response = await client.get("/fakeApi/todos");
-//     return response.todos;
-// });
 
-// export const saveNewTodo = createAsyncThunk(
-//     "todos/saveNewTodo",
-//     async (text) => {
-//         const initialTodo = { text };
-//         const response = await client.post("/fakeApi/todos", {
-//             todo: initialTodo,
-//         });
-//         return response.todo;
-//     }
-// );
 
 const fieldSlice = createSlice({
     name: "field",
     initialState,
     reducers: {
-        fieldAddNewTeam(state, action) {
-            const { kitColor } = action.payload;
-
-            //them players vao moi team
-            state.teams.push({
-                kitColor,
-                players: Array(state.numberPlayerEachTeam)
-                .fill("")
-                    .map((z, e) => {
-                        return {
-                            id: e,
-                            kitNumber : e + 1,
-                            name : null
-                        };
-                    }),
-            });
+        fieldChangeBallSize(state,action) {
+            state.ballSize = action.payload
+        },
+        fieldChangeTeamKitColor(state, action) {
+            const { kitColor, teamId } = action.payload;
+            state.teams[teamId].kitColor = kitColor
+        },
+        fieldChangeBallColor(state,action) {
+            state.ballColor = action.payload
         },
         fieldChangeColor(state, action) {
             state.color = action.payload;
         },
         fieldSetNumberOfPlayerEachTeam(state, action) {
-            state.numberPlayerEachTeam = action.payload;
+            const newNumberPlayerEachTeam = parseInt(action.payload)
+            state.numberPlayerEachTeam = newNumberPlayerEachTeam;
+            state.teams[0].players = Array(newNumberPlayerEachTeam).fill({
+                kitNumber: null,
+                name: null,
+            })
+            state.teams[1].players = Array(newNumberPlayerEachTeam).fill({
+                kitNumber: null,
+                name: null,
+            })
         },
-        fieldPlayerSize(state,action) {
-            state.playerSize = action.payload
+        fieldPlayerSize(state, action) {
+            state.playerSize = parseInt(action.payload);
         },
-        playerChangeInfo(state,action) {
-            const {name,kitNumber,id,teamId} = action.payload
-            state.teams[teamId].players[id].name = name
-            state.teams[teamId].players[id].kitNumber = kitNumber
+        playerChangeInfo(state, action) {
+            const { name, kitNumber, id, teamId } = action.payload;
+            state.teams[teamId].players[id].name = name;
+            state.teams[teamId].players[id].kitNumber = kitNumber;
         },
-        viewFilterChangeShowKitNumber(state,action) {
-            state.viewFilter.showKitNumber = !state.viewFilter.showKitNumber
+        viewFilterChangeShowKitNumber(state, action) {
+            state.viewFilter.showKitNumber = !state.viewFilter.showKitNumber;
         },
-        viewFilterChangeShowPlayerName(state,action) {
-            state.viewFilter.showPlayerName = !state.viewFilter.showPlayerName
-        }
+        viewFilterChangeShowPlayerName(state, action) {
+            state.viewFilter.showPlayerName = !state.viewFilter.showPlayerName;
+        },
     },
 });
 
 export const {
-    fieldAddNewTeam,
+    fieldChangeBallSize,
+    fieldChangeBallColor,
+    fieldChangeTeamKitColor,
     fieldChangeColor,
     fieldSetNumberOfPlayerEachTeam,
     fieldPlayerSize,
     playerChangeInfo,
     viewFilterChangeShowKitNumber,
-    viewFilterChangeShowPlayerName
+    viewFilterChangeShowPlayerName,
 } = fieldSlice.actions;
 
 export default fieldSlice.reducer;
