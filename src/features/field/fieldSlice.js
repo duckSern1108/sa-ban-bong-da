@@ -1,24 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    color: "#6082f0", 
-    ballColor : "#000000",
+    color: "#6082f0",
+    ballColor: "#000000",
     numberPlayerEachTeam: 7,
-    ballSize : 15,
+    ballSize: 15,
     teams: {
         0: {
             kitColor: "#ffffff",
-            players: Array(7).fill({
-                kitNumber: null,
-                name: null,
-            }),
+            players: Array(7)
+                .fill("")
+                .map((z, i) => {
+                    return {
+                        id: i,
+                        kitNumber: null,
+                        name: null,
+                    };
+                }),
         },
         1: {
             kitColor: "#FF0000",
-            players: Array(7).fill({
-                kitNumber: null,
-                name: null,
-            }),
+            players: Array(7)
+                .fill("")
+                .map((z, i) => {
+                    return {
+                        id: i,
+                        kitNumber: null,
+                        name: null,
+                    };
+                }),
         },
     },
     playerSize: 30,
@@ -28,35 +38,44 @@ const initialState = {
     },
 };
 
-
 const fieldSlice = createSlice({
     name: "field",
     initialState,
     reducers: {
-        fieldChangeBallSize(state,action) {
-            state.ballSize = action.payload
+        fieldChangeBallSize(state, action) {
+            state.ballSize = action.payload;
         },
         fieldChangeTeamKitColor(state, action) {
             const { kitColor, teamId } = action.payload;
-            state.teams[teamId].kitColor = kitColor
+            state.teams[teamId].kitColor = kitColor;
         },
-        fieldChangeBallColor(state,action) {
-            state.ballColor = action.payload
+        fieldChangeBallColor(state, action) {
+            state.ballColor = action.payload;
         },
         fieldChangeColor(state, action) {
             state.color = action.payload;
         },
         fieldSetNumberOfPlayerEachTeam(state, action) {
-            const newNumberPlayerEachTeam = parseInt(action.payload)
+            const newNumberPlayerEachTeam = parseInt(action.payload);
             state.numberPlayerEachTeam = newNumberPlayerEachTeam;
-            state.teams[0].players = Array(newNumberPlayerEachTeam).fill({
-                kitNumber: null,
-                name: null,
-            })
-            state.teams[1].players = Array(newNumberPlayerEachTeam).fill({
-                kitNumber: null,
-                name: null,
-            })
+            state.teams[0].players = Array(newNumberPlayerEachTeam)
+                .fill("")
+                .map((z, i) => {
+                    return {
+                        id: i,
+                        kitNumber: null,
+                        name: null,
+                    };
+                });
+            state.teams[1].players = Array(newNumberPlayerEachTeam)
+                .fill("")
+                .map((z, i) => {
+                    return {
+                        id: i,
+                        kitNumber: null,
+                        name: null,
+                    };
+                });
         },
         fieldPlayerSize(state, action) {
             state.playerSize = parseInt(action.payload);

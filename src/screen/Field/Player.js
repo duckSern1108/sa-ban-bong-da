@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PlayerInfoField from "./PlayerInfoField";
 import { useSelector } from "react-redux";
 import Draggable from "react-draggable";
+import useLongPress from "../../Hooks/useLongPress";
 export default function Players({
     size = 30,
     kitNumber,
@@ -15,6 +16,15 @@ export default function Players({
     const { showKitNumber, showPlayerName } = useSelector(
         (state) => state.field.viewFilter
     );
+    const onLongPress = () => {
+        setShowEditField(true);
+    };
+    const defaultOptions = {
+        shouldPreventDefault: true,
+        delay: 500,
+    };
+    const onClick = () => {}
+    const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
     return (
         <Draggable handle="span">
             <div
@@ -23,15 +33,16 @@ export default function Players({
                     flexDirection: "column",
                     alignItems: "center",
                     cursor: "move",
-                    position : !!defaultPosition && "absolute",
-                    top : !!defaultPosition && defaultPosition.top,
-                    left : !!defaultPosition && defaultPosition.left
+                    position: !!defaultPosition && "absolute",
+                    top: !!defaultPosition && defaultPosition.top,
+                    left: !!defaultPosition && defaultPosition.left,
+                    color : "white"
                     // display : "inline-block"
                 }}
             >
                 <span
                     style={{
-                        display : "block",
+                        display: "block",
                         width: `${size}px`,
                         height: `${size}px`,
                         borderRadius: "50%",
@@ -39,7 +50,7 @@ export default function Players({
                         textAlign: "center",
                         lineHeight: `${size}px`,
                     }}
-                    onClick={() => setShowEditField(true)}
+                    {...longPressEvent}
                 >
                     {showKitNumber && kitNumber && kitNumber}
                 </span>
