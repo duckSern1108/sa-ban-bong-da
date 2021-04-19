@@ -39,7 +39,7 @@ export default function Players({
                         textAlign: "center",
                         lineHeight: `${size}px`,
                     }}
-                    onDoubleClick={() => setShowEditField(true)}
+                    onClick={() => setShowEditField(true)}
                 >
                     {showKitNumber && kitNumber && kitNumber}
                 </span>
