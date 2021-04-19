@@ -21,7 +21,7 @@ export default function Players({
     };
     const defaultOptions = {
         shouldPreventDefault: true,
-        delay: 500,
+        delay: 1500,
     };
     const onClick = () => {}
     const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
