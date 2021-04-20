@@ -4,8 +4,11 @@ import EditField from "./EditField";
 import Player from "./Player";
 import { useSelector } from "react-redux";
 export default function Field() {
-    const { color, teams, playerSize, ballColor, ballSize } = useSelector(
+    const { teams } = useSelector(
         (state) => state.field
+    );
+    const { fieldColor,playerSize, ballColor, ballSize } = useSelector(
+        (state) => state.viewOption
     );
     const [showSetting, setShowSetting] = useState(false);
     return (
@@ -31,7 +34,7 @@ export default function Field() {
                         <EditField />
                     </div>
                 )}
-                <Background color={color} />
+                <Background color={fieldColor} />
 
                 <button onClick={() => setShowSetting((s) => !s)}>
                     Setting

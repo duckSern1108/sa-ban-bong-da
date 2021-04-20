@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import PlayerInfoField from "./PlayerInfoField";
+import React from "react";
+// import PlayerInfoField from "./PlayerInfoField";
 import { useSelector } from "react-redux";
 import Draggable from "react-draggable";
-import useLongPress from "../../Hooks/useLongPress";
 export default function Players({
     size = 30,
     kitNumber,
@@ -12,19 +11,10 @@ export default function Players({
     teamId,
     defaultPosition,
 }) {
-    const [showEditField, setShowEditField] = useState(false);
+    // const [showEditField, setShowEditField] = useState(false);
     const { showKitNumber, showPlayerName } = useSelector(
-        (state) => state.field.viewFilter
+        (state) => state.viewOption
     );
-    const onLongPress = () => {
-        setShowEditField(true);
-    };
-    const defaultOptions = {
-        shouldPreventDefault: true,
-        delay: 1500,
-    };
-    const onClick = () => {}
-    const longPressEvent = useLongPress(onLongPress, onClick, defaultOptions);
     return (
         <Draggable handle="span">
             <div
@@ -50,20 +40,11 @@ export default function Players({
                         textAlign: "center",
                         lineHeight: `${size}px`,
                     }}
-                    {...longPressEvent}
+                    // onDoubleClick={() => setShowEditField(true)}
                 >
                     {showKitNumber && kitNumber && kitNumber}
                 </span>
                 {showPlayerName && name && <div>{name}</div>}
-                {showEditField && (
-                    <div>
-                        <PlayerInfoField
-                            id={id}
-                            teamId={teamId}
-                            setShowEditField={setShowEditField}
-                        />
-                    </div>
-                )}
             </div>
         </Draggable>
     );

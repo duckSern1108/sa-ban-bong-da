@@ -1,22 +1,28 @@
 import React from "react";
 import {
-    fieldChangeBallSize,
-    fieldChangeBallColor,
-    fieldChangeTeamKitColor,
-    fieldChangeColor,
-    fieldPlayerSize,
     fieldSetNumberOfPlayerEachTeam,
-    viewFilterChangeShowKitNumber,
-    viewFilterChangeShowPlayerName,
+    fieldChangeTeamKitColor,
 } from "../../features/field/fieldSlice";
+import {
+    viewOptionChangeBallColor,
+    viewOptionChangeBallSize,
+    viewOptionChangeColor,
+    viewOptionChangePlayerSize,
+    viewOptionChangeShowKitNumber,
+    viewOptionChangeShowPlayerName,
+} from "../../features/viewOption/viewOptionSlice";
 import { useDispatch, useSelector } from "react-redux";
 export default function EditField() {
     const dispatch = useDispatch();
-    const { playerSize, color, teams, numberPlayerEachTeam,ballColor,ballSize,viewFilter : {
-        showKitNumber, showPlayerName
-    } } = useSelector(
-        (state) => state.field
-    );
+    const { teams, numberPlayerEachTeam } = useSelector((state) => state.field);
+    const {
+        playerSize,
+        fieldColor,
+        ballColor,
+        ballSize,
+        showKitNumber,
+        showPlayerName,
+    } = useSelector((state) => state.viewOption);
     return (
         <div
             style={{
@@ -29,8 +35,10 @@ export default function EditField() {
                 <label>Màu cỏ : </label>
                 <input
                     type="color"
-                    value={color}
-                    onChange={(e) => dispatch(fieldChangeColor(e.target.value))}
+                    value={fieldColor}
+                    onChange={(e) =>
+                        dispatch(viewOptionChangeColor(e.target.value))
+                    }
                     name="color"
                 />
                 <br />
@@ -38,7 +46,9 @@ export default function EditField() {
                 <input
                     type="color"
                     value={ballColor}
-                    onChange={(e) => dispatch(fieldChangeBallColor(e.target.value))}
+                    onChange={(e) =>
+                        dispatch(viewOptionChangeBallColor(e.target.value))
+                    }
                     name="ballColor"
                 />
                 <br />
@@ -48,10 +58,14 @@ export default function EditField() {
                     name="team1KitColor"
                     placeholder="Team 1 kit color"
                     value={teams[0].kitColor || "#000000"}
-                    onChange={e => dispatch(fieldChangeTeamKitColor({
-                        kitColor : e.target.value,
-                        teamId : 0
-                    }))}
+                    onChange={(e) =>
+                        dispatch(
+                            fieldChangeTeamKitColor({
+                                kitColor: e.target.value,
+                                teamId: 0,
+                            })
+                        )
+                    }
                 />
                 <br />
                 <label>Màu áo team 2 : </label>
@@ -60,10 +74,14 @@ export default function EditField() {
                     name="team2KitColor"
                     placeholder="Team 2 kit color"
                     value={teams[1].kitColor || "#000000"}
-                    onChange={e => dispatch(fieldChangeTeamKitColor({
-                        kitColor : e.target.value,
-                        teamId : 1
-                    }))}
+                    onChange={(e) =>
+                        dispatch(
+                            fieldChangeTeamKitColor({
+                                kitColor: e.target.value,
+                                teamId: 1,
+                            })
+                        )
+                    }
                 />
                 <br />
                 <label>Số cầu thủ mỗi đội : </label>
@@ -80,14 +98,14 @@ export default function EditField() {
                     value={showKitNumber}
                     type="checkbox"
                     name="view kit number"
-                    onChange={() => dispatch(viewFilterChangeShowKitNumber())}
+                    onChange={() => dispatch(viewOptionChangeShowKitNumber())}
                 />
                 <label>Hiện số áo cầu thủ</label>
                 <input
                     value={showPlayerName}
                     type="checkbox"
                     name="view player name"
-                    onChange={() => dispatch(viewFilterChangeShowPlayerName())}
+                    onChange={() => dispatch(viewOptionChangeShowPlayerName())}
                 />
 
                 <label>Hiện tên cầu thủ</label>
@@ -100,7 +118,9 @@ export default function EditField() {
                     min={10}
                     max={100}
                     onChange={(e) =>
-                        dispatch(fieldPlayerSize(parseInt(e.target.value)))
+                        dispatch(
+                            viewOptionChangePlayerSize(parseInt(e.target.value))
+                        )
                     }
                 />
                 <br />
@@ -112,7 +132,9 @@ export default function EditField() {
                     min={10}
                     max={100}
                     onChange={(e) =>
-                        dispatch(fieldChangeBallSize(parseInt(e.target.value)))
+                        dispatch(
+                            viewOptionChangeBallSize(parseInt(e.target.value))
+                        )
                     }
                 />
             </form>
