@@ -2,7 +2,7 @@ import React from "react";
 import {
     fieldSetNumberOfPlayerEachTeam,
     fieldChangeTeamKitColor,
-} from "../../features/field/fieldSlice";
+} from "../../features/fieldSlice";
 import {
     viewOptionChangeBallColor,
     viewOptionChangeBallSize,
@@ -10,7 +10,7 @@ import {
     viewOptionChangePlayerSize,
     viewOptionChangeShowKitNumber,
     viewOptionChangeShowPlayerName,
-} from "../../features/viewOption/viewOptionSlice";
+} from "../../features/viewOptionSlice";
 import { useDispatch, useSelector } from "react-redux";
 export default function EditField() {
     const dispatch = useDispatch();

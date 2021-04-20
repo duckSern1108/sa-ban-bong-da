@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import fieldReducer from "../features/field/fieldSlice";
-import viewOptionReducer from "../features/viewOption/viewOptionSlice";
+import fieldReducer from "../features/fieldSlice";
+import viewOptionReducer from "../features/viewOptionSlice";
 export const store = configureStore({
     reducer: {
         field : fieldReducer,
